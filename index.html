@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Interactive Thesis Map</title>
-  <!-- Cytoscape.js from CDN -->
+  <!-- Include Cytoscape.js -->
   <script src="https://cdn.jsdelivr.net/npm/cytoscape@3.20.0/dist/cytoscape.min.js"></script>
   <style>
-    /* Reset & base styles */
+    /* Basic styles */
     body, html {
       margin: 0;
       padding: 0;
@@ -15,7 +15,6 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
       background-color: #f8f8f8;
     }
-    /* Full-viewport Cytoscape container */
     #cy {
       width: 100%;
       height: 100%;
@@ -65,12 +64,9 @@
       cursor: pointer;
     }
     /* Accordion styles */
-    .accordion {
+    .accordion-item {
       border-top: 1px solid #ccc;
       margin-top: 15px;
-    }
-    .accordion-item {
-      border-bottom: 1px solid #ccc;
     }
     .accordion-header {
       padding: 10px;
@@ -93,14 +89,13 @@
     }
     .accordion-item.active .accordion-content {
       padding: 10px;
-      max-height: 300px; /* Adjust as needed */
+      max-height: 300px;
     }
   </style>
 </head>
 <body>
   <!-- Cytoscape container -->
   <div id="cy"></div>
-
   <!-- Modal for section details -->
   <div id="modal" class="modal-overlay">
     <div class="modal-content">
@@ -111,151 +106,131 @@
   </div>
 
   <script>
-    /********* Data for Modal Content *********/
-    // Content data for each section node
+    /********* Modal Content Data *********/
     const sectionContent = {
       postFordism: {
-        header: "👍 Post-Fordism & New Capitalisms",
+        header: "🏛️ Post-Fordism & New Capitalisms", 
         concepts: [
           {
             title: "The Shift to Post-Fordism",
             summary: "Explores how deregulation and flexibility redefined labor and capital.",
-            details: "In this concept, we discuss the transition from rigid Fordist structures to more flexible, innovation-driven systems. Key elements include deregulation, global networks, and the rise of immaterial labor. References: Harvey (2005), Fischer (2010b).",
-            link: "#"
+            details: "Discussion on transitioning from rigid Fordist structures to more flexible, innovation-driven systems. Key references: Harvey (2005), Fischer (2010b)."
           },
           {
             title: "Emergence of the Network Human",
-            summary: "Highlights the evolution of subjectivity and the flexible worker.",
-            details: "The network human emerges as a response to the need for adaptability in a post-Fordist economy. This concept explains how workers now navigate flexible, decentralized work environments. References: Jessop (1992), Hardt & Negri (2000).",
-            link: "#"
+            summary: "Highlights the evolution of the flexible worker.",
+            details: "Describes how immaterial labor and decentralized work practices give rise to the 'network human'. Key references: Jessop (1992), Hardt & Negri (2000)."
           },
           {
             title: "AI as a Catalyst",
-            summary: "Discusses how AI accelerates and amplifies new economic models.",
-            details: "AI is positioned as a key driver in the transition towards new capitalisms by enabling rapid innovation and data-driven decision-making. References: Lee (2018), Fischer et al. (2022).",
-            link: "#"
+            summary: "Examines how AI accelerates new capitalistic dynamics.",
+            details: "Focuses on AI's role in driving innovation and enabling data-driven decision-making. Key references: Lee (2018), Fischer et al. (2022)."
           }
         ]
       },
       itDigital: {
-        header: "💻 IT & Digital Discourse",
+        header: "🌐 IT & Digital Discourse",
         concepts: [
           {
             title: "IT as a Social Field",
-            summary: "Defines IT beyond industry, as a structured space of influence.",
-            details: "This concept delves into how IT shapes societal structures, establishing its own norms and rules. It is seen not just as a technical field but as a social arena. References: Bourdieu (1990), Fischer (2010a).",
-            link: "#"
+            summary: "Defines IT as more than just an industry.",
+            details: "Explores how IT shapes societal norms and structures. Key references: Bourdieu (1990), Fischer (2010a)."
           },
           {
             title: "Narratives of Digital Progress",
-            summary: "Explores how digital discourse legitimizes endless innovation.",
-            details: "Digital narratives create a vision of continuous progress and transformation, influencing public perceptions and policy. References: Fischer (2010b), Harvey (2005).",
-            link: "#"
+            summary: "Discusses legitimizing narratives of continuous innovation.",
+            details: "Examines how digital discourse promotes endless progress. Key references: Fischer (2010b), Harvey (2005)."
           },
           {
             title: "Influence of Tech Elites",
-            summary: "Examines the role of influential figures in shaping digital discourse.",
-            details: "Tech elites use their platforms to define the direction of digital innovation, impacting both industry and society. References: Andreessen (2023), Altman (2024).",
-            link: "#"
+            summary: "Investigates the role of tech leaders in shaping digital narratives.",
+            details: "Analyzes how influential figures drive public perception of digital innovation. Key references: Andreessen (2023), Altman (2024)."
           }
         ]
       },
       b2bSeller: {
-        header: "👤 B2B IT Seller",
+        header: "🧑‍💼 B2B IT Seller",
         concepts: [
           {
             title: "Dual Role of Sellers",
-            summary: "Sellers both promote and experience digital transformation.",
-            details: "This concept highlights the paradox where B2B sellers are champions of AI while also adapting to its challenges in their daily practices. References: Elhajjar et al. (2023), Paschen et al. (2020).",
-            link: "#"
+            summary: "Sellers as both advocates and adaptors.",
+            details: "Examines how B2B sellers promote AI while managing its challenges. Key references: Elhajjar et al. (2023), Paschen et al. (2020)."
           },
           {
             title: "Challenges of AI Adoption",
-            summary: "Examines the hurdles in integrating AI into sales practices.",
-            details: "Explores the practical challenges faced by sellers in adopting AI tools, including resistance and the need for upskilling. References: LinkedIn & Ipsos (2024), Dover (2022).",
-            link: "#"
+            summary: "Addresses hurdles in integrating AI into sales.",
+            details: "Focuses on practical challenges such as resistance and the need for upskilling. Key references: LinkedIn & Ipsos (2024), Dover (2022)."
           },
           {
             title: "Impact on Productivity & Relationships",
-            summary: "Details how AI reshapes customer engagement and productivity.",
-            details: "Focuses on the measurable impacts of AI on sales performance and the evolving nature of seller-customer relationships. References: Yee et al. (2024), Paschen et al. (2020).",
-            link: "#"
+            summary: "Analyzes AI's effects on sales dynamics.",
+            details: "Looks at how AI integration reshapes seller-customer interactions and performance. Key references: Yee et al. (2024), Paschen et al. (2020)."
           }
         ]
       },
       b2bSales: {
-        header: "📊 B2B Sales Process",
+        header: "🔄 B2B Sales Process",
         concepts: [
           {
             title: "AI-Driven Prospecting",
-            summary: "Covers the use of AI for smarter lead scoring and targeting.",
-            details: "Describes how AI tools streamline the prospecting phase by analyzing data to qualify leads more effectively. References: ZoomInfo, 6sense.",
-            link: "#"
+            summary: "Covers smarter lead scoring and targeting.",
+            details: "Describes how AI streamlines the prospecting phase by effectively qualifying leads. Key references: ZoomInfo, 6sense."
           },
           {
             title: "Personalized Engagement",
-            summary: "Highlights the role of AI in tailoring sales communication.",
-            details: "This section discusses how AI enables real-time, personalized interactions with prospects, improving engagement. References: Salesloft, Outreach.",
-            link: "#"
+            summary: "Highlights tailored sales communication.",
+            details: "Discusses real-time personalization of sales interactions through AI insights. Key references: Salesloft, Outreach."
           },
           {
             title: "Optimizing Post-Sale Interactions",
-            summary: "Focuses on AI's role in enhancing customer retention.",
-            details: "Details how automated follow-ups and customer analytics improve post-sale service and retention. References: Zendesk, Totango.",
-            link: "#"
+            summary: "Focuses on enhanced customer retention.",
+            details: "Explores how automated follow-ups and analytics improve post-sale service. Key references: Zendesk, Totango."
           }
         ]
       },
       gaps: {
-        header: "🔍 Gaps & Opportunities",
+        header: "📁 Gaps & Opportunities",
         concepts: [
           {
             title: "Research Limitations",
-            summary: "Discusses the disconnect between theory and practice in AI adoption.",
-            details: "Highlights the challenges in aligning academic frameworks with the real-world integration of AI in sales. References: Hunter (2019), Chen (2021).",
-            link: "#"
+            summary: "Discusses the disconnect between theory and practice.",
+            details: "Highlights challenges in aligning academic frameworks with real-world AI integration. Key references: Hunter (2019), Chen (2021)."
           },
           {
             title: "Managerial vs. Practitioner Perspectives",
-            summary: "Explores differences in how AI’s impact is viewed across levels.",
-            details: "Examines the disparity between managerial narratives and the experiences of frontline sales professionals. References: Rodriguez & Peterson (2023).",
-            link: "#"
+            summary: "Explores differing views on AI's impact.",
+            details: "Examines the disparity between top-down narratives and frontline experiences. Key references: Rodriguez & Peterson (2023)."
           },
           {
             title: "Future Research Directions",
-            summary: "Identifies key questions and areas ripe for further study.",
-            details: "Outlines emerging opportunities for research to better understand AI's transformative role. References: Paschen et al. (2020).",
-            link: "#"
+            summary: "Identifies key questions for further study.",
+            details: "Outlines emerging opportunities to better understand AI's transformative role. Key references: Paschen et al. (2020)."
           }
         ]
       },
       aiMaking: {
-        header: "🌀 AI in the Making",
+        header: "🤖 AI in the Making",
         concepts: [
           {
             title: "Emergence through Practice",
-            summary: "Explores how AI evolves via real-world interactions.",
-            details: "Focuses on the dynamic nature of AI as it adapts through everyday use and continuous feedback. References: Scott & Orlikowski (2025).",
-            link: "#"
+            summary: "Explores how AI evolves via interaction.",
+            details: "Focuses on the dynamic adaptation of AI in real-world usage. Key references: Scott & Orlikowski (2025)."
           },
           {
             title: "Sociomaterial Interactions",
-            summary: "Examines the interplay between technology and human practice.",
-            details: "Highlights how the co-construction of AI is influenced by the social and material contexts in which it operates. References: Orlikowski (2008).",
-            link: "#"
+            summary: "Examines the interplay of tech and human practices.",
+            details: "Highlights the co-construction of AI within its social context. Key references: Orlikowski (2008)."
           },
           {
             title: "Co-constructing AI",
             summary: "Describes AI as a collaborative, evolving process.",
-            details: "This concept underlines that AI is not fixed but continuously shaped by its users and their practices. References: Faraj et al. (2018).",
-            link: "#"
+            details: "Underlines that AI is continuously shaped by its users. Key references: Faraj et al. (2018)."
           }
         ]
       }
     };
 
-    /********* Cytoscape.js Setup *********/
-    // Define nodes and edges
+    /********* Cytoscape Setup with Logical Flow *********/
     const cy = cytoscape({
       container: document.getElementById('cy'),
       style: [
@@ -267,31 +242,24 @@
             'color': '#fff',
             'text-valign': 'center',
             'text-halign': 'center',
-            'font-size': '12px',
-            'width': '60px',
-            'height': '60px'
-          }
-        },
-        {
-          selector: 'node#ai',
-          style: {
-            'background-color': '#FF4136',
+            'font-size': '14px',
             'width': '80px',
-            'height': '80px',
-            'font-size': '16px'
+            'height': '80px'
           }
         },
         {
           selector: 'edge',
           style: {
             'width': 3,
-            'line-color': '#ccc'
+            'line-color': '#ccc',
+            'target-arrow-shape': 'triangle',
+            'target-arrow-color': '#ccc',
+            'curve-style': 'bezier'
           }
         }
       ],
       elements: {
         nodes: [
-          { data: { id: 'ai', label: '🤖 AI' } },
           { data: { id: 'postFordism', label: '👍 Post-Fordism & New Capitalisms' } },
           { data: { id: 'itDigital', label: '💻 IT & Digital Discourse' } },
           { data: { id: 'b2bSeller', label: '👤 B2B IT Seller' } },
@@ -300,49 +268,26 @@
           { data: { id: 'aiMaking', label: '🌀 AI in the Making' } }
         ],
         edges: [
-          { data: { source: 'ai', target: 'postFordism' } },
-          { data: { source: 'ai', target: 'itDigital' } },
-          { data: { source: 'ai', target: 'b2bSeller' } },
-          { data: { source: 'ai', target: 'b2bSales' } },
-          { data: { source: 'ai', target: 'gaps' } },
-          { data: { source: 'ai', target: 'aiMaking' } }
+          { data: { source: 'postFordism', target: 'itDigital' } },
+          { data: { source: 'itDigital', target: 'b2bSeller' } },
+          { data: { source: 'b2bSeller', target: 'b2bSales' } },
+          { data: { source: 'b2bSales', target: 'gaps' } },
+          { data: { source: 'gaps', target: 'aiMaking' } }
         ]
       },
       layout: {
-        name: 'preset'
+        name: 'breadthfirst',
+        directed: true,
+        padding: 10,
+        spacingFactor: 1.5,
+        animate: true,
+        roots: '#postFordism'
       },
       userPanningEnabled: true,
       userZoomingEnabled: true
     });
 
-    // Set initial positions manually for a clear arrangement
-    cy.nodes().forEach(function(node) {
-      switch (node.id()) {
-        case 'ai':
-          node.position({ x: 400, y: 300 });
-          break;
-        case 'postFordism':
-          node.position({ x: 400, y: 150 }); // above
-          break;
-        case 'itDigital':
-          node.position({ x: 550, y: 150 }); // top right
-          break;
-        case 'b2bSeller':
-          node.position({ x: 250, y: 300 }); // left
-          break;
-        case 'b2bSales':
-          node.position({ x: 550, y: 300 }); // right
-          break;
-        case 'gaps':
-          node.position({ x: 300, y: 450 }); // bottom left
-          break;
-        case 'aiMaking':
-          node.position({ x: 500, y: 450 }); // bottom right
-          break;
-      }
-    });
-
-    // Make nodes draggable
+    // Enable dragging of nodes
     cy.nodes().grabify();
 
     /********* Modal & Accordion Functionality *********/
@@ -351,15 +296,11 @@
     const modalBody = document.getElementById('modal-body');
     const modalClose = document.getElementById('modal-close');
 
-    // Close modal when clicking close button or overlay outside content
     modalClose.addEventListener('click', () => modal.classList.remove('active'));
     modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.classList.remove('active');
-      }
+      if (e.target === modal) modal.classList.remove('active');
     });
 
-    // Function to create accordion item HTML
     function createAccordionItem(concept) {
       const item = document.createElement('div');
       item.className = 'accordion-item';
@@ -374,12 +315,10 @@
       const content = document.createElement('div');
       content.className = 'accordion-content';
       content.innerHTML = `<p><strong>Summary:</strong> ${concept.summary}</p>
-                           <p>${concept.details}</p>
-                           <p><a href="${concept.link}" target="_blank">Further Reading</a></p>`;
+                           <p>${concept.details}</p>`;
       
       header.addEventListener('click', () => {
         const isActive = item.classList.contains('active');
-        // Toggle all accordion items in modalBody
         const allItems = modalBody.querySelectorAll('.accordion-item');
         allItems.forEach(i => {
           i.classList.remove('active');
@@ -397,23 +336,19 @@
       return item;
     }
 
-    // When a node is clicked, center it, zoom, and show modal with its content.
+    // When a node is clicked, animate and open the modal with its content
     cy.on('tap', 'node', function(evt){
       const nodeId = this.id();
-      if (nodeId === 'ai') return; // central node doesn't open modal
-      
-      // Animate pan/zoom to the clicked node
+      // Animate pan and zoom to the clicked node
       cy.animate({
         center: { eles: this },
         zoom: 2,
         duration: 500
       });
-
-      // Populate modal with the corresponding content
       const contentData = sectionContent[nodeId];
       if (contentData) {
         modalHeader.textContent = contentData.header;
-        modalBody.innerHTML = ''; // Clear previous content
+        modalBody.innerHTML = '';
         contentData.concepts.forEach(concept => {
           modalBody.appendChild(createAccordionItem(concept));
         });
